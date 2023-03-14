@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    ports:
+      - '8080:80'
+    depends_on:
+      - web
+    logging:
+        options:
+            max-size: "10M"
+            max-file: "3"
+
+  web:
+    build:
+      context: ./docker/web
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - pgsql
+      - redis
+    volumes:
+      - .:/app
+    logging:
+        options:
+            max-size: "10M"
+            max-file: "3"
+
+  pgsql:
+    image: postgres:14
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgsql_data:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    logging:
+        options:
+            max-size: "10M"
+            max-file: "3"
+
+  redis:
+    build:
+      context: ./docker/redis
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    logging:
+        options:
+            max-size: "10M"
+            max-file: "3"
+
+volumes:
+  pgsql_data:
+  redis_data:
