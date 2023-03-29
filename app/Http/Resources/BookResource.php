@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Book;
 use App\Models\Status;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 
 class BookResource extends JsonResource
 {
@@ -20,8 +21,17 @@ class BookResource extends JsonResource
           'id' => $this->id,
           'name' => $this->name,
           'author' => $this->author,
-            'genre' => GenreResource::collection($this->genre),
-            'status' => new StatusResource($this->status),
+          'publisher' => $this->publisher,
+          'description' => $this->description,
+          'release_date' => $this->release_date,
+            'image'  => $this->getFirstMediaUrl('image'),
+            'genre' => $this->genre?->map(fn($value) => [
+                'id'=>$value['id'],
+                'title'=>$value['title']
+            ]),
+            'status' =>$this->status?->only(['id','title'])
+//            'genre' => GenreResource::collection($this->genre),
+//            'status' => new StatusResource($this->status),
         ];
     }
 }

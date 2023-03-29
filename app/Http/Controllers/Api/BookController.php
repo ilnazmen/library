@@ -19,7 +19,10 @@ class BookController extends Controller
      */
     public function index()
     {
-         return BookResource::collection(Book::all());
+
+        $order = Book::orderBy('created_at', 'desc')->with('media')->get();
+
+         return BookResource::collection($order);
     }
 
     /**
@@ -30,14 +33,24 @@ class BookController extends Controller
      */
     public function store(BookStoreRequest $request)
     {
-        $data = $request->validated();
-        $genres = ($data['genre_id']);
-        $genre = json_decode($genres[0]);
-        unset($data['genre_id']);
-        $data->addMediaFromRequest('image')->toMediaCollection();
-        unset($data['image']);
-        $added_book = Book::create($data);
-        foreach ($genre as $item) {
+        $book_data = $request->only([
+            'name',
+            'author',
+            'publisher',
+            'description',
+            'release_date',
+            'ImageUrl',
+            'status_id',
+        ]);
+
+        $added_book = Book::create($book_data);
+        $added_book->addMediaFromRequest('image')
+            ->usingName($added_book->name)
+            ->toMediaCollection('image');
+
+        $genres = $request->get('genre_id') ?? [];
+
+        foreach ($genres as $item) {
             $added_book->genre()->attach($item);
         }
         return new BookResource($added_book);
@@ -64,20 +77,34 @@ class BookController extends Controller
      */
     public function update(BookStoreRequest $request, Book $book)
     {
-        $data = $request->validated();
-        if (!empty($data['genre_id'])) {
-            $genre = json_decode($data['genre_id']);
-            unset($data['genre_id']);
-            $book->update($data);
+        $book_data = $request->only([
+            'name',
+            'author',
+            'publisher',
+            'description',
+            'release_date',
+            'ImageUrl',
+            'status_id',
+        ]);
 
-            $book->genre()->sync($genre);
+        $book->update($book_data);
 
-            return new BookResource($book);
+
+        if ($request->hasFile('image')) {
+            $book->media()->delete();
+            $book->addMediaFromRequest('image')
+                ->usingName($book->name)
+                ->toMediaCollection('image');
         }
+//        $book->addMediaFromRequest('image')
+//            ->usingName($book->name)
+//            ->toMediaCollection('image');
 
-        $book->update($data);
+        $genres = $request->get('genre_id') ?? [];
 
-
+        foreach ($genres as $item) {
+            $book->genre()->attach($item);
+        }
         return new BookResource($book);
     }
 

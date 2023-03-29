@@ -13,5 +13,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('/books', BookController::class);
 Route::apiResource('/genres', GenreController::class);
 Route::apiResource('/statuses', StatusController::class);
+//Route::post('/books/{book}',[BookController::class, 'update']);
+
 
 //Route::get('/{any}','SpaController@index')->where('any','.*');

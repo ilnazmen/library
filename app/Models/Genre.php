@@ -9,6 +9,10 @@ class Genre extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'id' => 'integer'
+    ];
+
     public function books()
     {
         return $this->belongsToMany(Book::class);
