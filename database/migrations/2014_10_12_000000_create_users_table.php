@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unsignedBigInteger('role_id');
+//            $table->unsignedBigInteger('role_id');
         });
     }
 
