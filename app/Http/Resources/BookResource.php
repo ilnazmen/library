@@ -30,8 +30,6 @@ class BookResource extends JsonResource
                 'title'=>$value['title']
             ]),
             'status' =>$this->status?->only(['id','title'])
-//            'genre' => GenreResource::collection($this->genre),
-//            'status' => new StatusResource($this->status),
         ];
     }
 }
