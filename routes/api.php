@@ -24,9 +24,10 @@ Route::apiResource('/genres', GenreController::class);
 Route::apiResource('/statuses', StatusController::class);
 Route::apiResource('/users',UserController::class);
 Route::apiResource('/roles',RoleController::class);
-Route::apiResource('/forgot-password',ForgotPasswordController::class);
-Route::get('/reset-password',[ResetPasswordController::class,'create'])->name('password.reset');
-Route::post('/reset-password',[ResetPasswordController::class,'store'])->name('password.update');
+Route::post('forgot-password', [ForgotPasswordController::class, "sendResetLinkEmail"]);
+Route::post('reset-password', [ResetPasswordController::class, "reset"]);
+//Route::get('/reset-password',[ResetPasswordController::class,'create'])->name('password.reset');
+//Route::post('/reset-password',[ResetPasswordController::class,'store'])->name('password.update');
 //Route::post('/books/{book}',[BookController::class, 'update']);
 
 
