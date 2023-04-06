@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\GenreController;
+use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\UserController;
@@ -22,6 +24,9 @@ Route::apiResource('/genres', GenreController::class);
 Route::apiResource('/statuses', StatusController::class);
 Route::apiResource('/users',UserController::class);
 Route::apiResource('/roles',RoleController::class);
+Route::apiResource('/forgot-password',ForgotPasswordController::class);
+Route::get('/reset-password',[ResetPasswordController::class,'create'])->name('password.reset');
+Route::post('/reset-password',[ResetPasswordController::class,'store'])->name('password.update');
 //Route::post('/books/{book}',[BookController::class, 'update']);
 
 
