@@ -47,5 +47,10 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token) {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
 
