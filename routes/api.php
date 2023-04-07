@@ -10,10 +10,11 @@ use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user()->with('role')->get();
+    return $request->user();
 });
 Route::controller(AuthController::class)->group(function (){
     Route::post('login','login');

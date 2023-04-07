@@ -34,5 +34,10 @@ class Book extends Model implements HasMedia
     {
         return $this->belongsTo(Status::class);
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
 
