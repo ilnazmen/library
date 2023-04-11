@@ -20,7 +20,7 @@ class BookStoreRequest extends FormRequest
             'description' => 'required|string',
             'release_date' => 'required|string',
             'ImageUrl' => 'nullable|string',
-            'image' => 'required|file',
+            'image' => 'required',
             'status_id' => 'required|numeric',
             'genre_id' => 'required|array',
         ];

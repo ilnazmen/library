@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\GenreController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\StatusController;
@@ -23,6 +24,7 @@ Route::controller(AuthController::class)->group(function (){
 Route::apiResource('/books', BookController::class);
 Route::apiResource('/genres', GenreController::class);
 Route::apiResource('/statuses', StatusController::class);
+Route::apiResource('/orders', OrderController::class);
 Route::apiResource('/users',UserController::class);
 Route::apiResource('/roles',RoleController::class);
 Route::post('forgot-password', [ForgotPasswordController::class, "sendResetLinkEmail"]);

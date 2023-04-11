@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
+use App\Models\Order;
 use App\Models\Status;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class StatusController extends Controller
@@ -27,7 +30,13 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $book = $request->get('book_id');
+        $status = $request->get('status_id');
+        $order = $request->get('order_id');
+        Book::where('id', $book)->firstOrFail()->update(['status_id'=> $status]);
+        Order::where('id', $order)
+            ->firstOrFail()
+            ->update(['booking_date' => Carbon::now(), 'return_date' => Carbon::now()->addWeek()]);
     }
 
     /**
@@ -50,7 +59,7 @@ class StatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

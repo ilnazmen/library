@@ -52,5 +52,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
 }
 

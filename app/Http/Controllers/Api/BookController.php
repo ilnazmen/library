@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
-use App\Models\Genre;
+
 use http\Env\Response;
 use Illuminate\Http\Request;
 
@@ -42,7 +42,6 @@ class BookController extends Controller
             'ImageUrl',
             'status_id',
         ]);
-
         $added_book = Book::create($book_data);
         $added_book->addMediaFromRequest('image')
             ->usingName($added_book->name)
@@ -101,7 +100,6 @@ class BookController extends Controller
 //            ->toMediaCollection('image');
 
         $genres = $request->get('genre_id') ?? [];
-
         foreach ($genres as $item) {
             $book->genre()->attach($item);
         }
