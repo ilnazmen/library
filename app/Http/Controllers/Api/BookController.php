@@ -100,9 +100,10 @@ class BookController extends Controller
 //            ->toMediaCollection('image');
 
         $genres = $request->get('genre_id') ?? [];
-        foreach ($genres as $item) {
-            $book->genre()->attach($item);
-        }
+        $book->genre()->sync($genres);
+//        foreach ($genres as $item) {
+//            $book->genre()->sync($item);
+//        }
         return new BookResource($book);
     }
 

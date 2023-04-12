@@ -34,9 +34,11 @@ class StatusController extends Controller
         $status = $request->get('status_id');
         $order = $request->get('order_id');
         Book::where('id', $book)->firstOrFail()->update(['status_id'=> $status]);
-        Order::where('id', $order)
-            ->firstOrFail()
-            ->update(['booking_date' => Carbon::now(), 'return_date' => Carbon::now()->addWeek()]);
+        if ($order != null) {
+            Order::where('id', $order)
+                ->firstOrFail()
+                ->update(['booking_date' => Carbon::now(), 'return_date' => Carbon::now()->addWeek()]);
+        }
     }
 
     /**
@@ -66,10 +68,10 @@ class StatusController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+
     }
 }
