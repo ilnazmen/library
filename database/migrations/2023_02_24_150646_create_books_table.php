@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('release_date')->date_format('Y');
             $table->text('ImageUrl');
+//            Сверху ненужная хуйня
             $table->timestamps();
             $table->softDeletes();
 
